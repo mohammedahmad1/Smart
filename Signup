@@ -1,0 +1,71 @@
+package com.example.smartapp
+
+import android.app.SearchManager
+import android.opengl.Visibility
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.view.View
+import android.widget.Toast
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.activity_signup.*
+
+class Signup : AppCompatActivity() {
+
+
+    var mAuth : FirebaseAuth? = null
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_signup)
+
+
+
+
+        mAuth = FirebaseAuth.getInstance()
+
+        btn_re.setOnClickListener {
+
+            val email = edmail.text.toString()
+            val password = edpass.text.toString()
+
+            if(email.isNotEmpty()&& password.isNotEmpty()){
+
+             pro.visibility = View.VISIBLE
+
+                val addOnCompleteListener = mAuth?.createUserWithEmailAndPassword(email, password)
+                    ?.addOnCompleteListener {
+
+                        if ( it.isSuccessful) {
+                            Toast.makeText(applicationContext," تم التسجيل بنجاح ",Toast.LENGTH_LONG).show()
+                            pro.visibility = View.GONE
+
+
+                        }else{
+                            Toast.makeText(applicationContext,"الرجاء التحقق من البيانات المدخلة  ",Toast.LENGTH_LONG).show()
+
+
+                        }
+
+            }
+
+
+
+
+               }else
+                Toast.makeText(applicationContext," خطا :يوجد احد الحقول فارغ ",Toast.LENGTH_LONG).show()
+
+        }
+
+
+
+
+
+
+
+
+    }
+}
